@@ -4,46 +4,47 @@ require 'sinatra/base'
 require 'sinatra/json'
 require 'securerandom'
 
-class Counter
-  def initialize
-    @value = 0
-  end
-
-  def incr
-    @value += 1
-  end
-end
+require_relative './user'
 
 class App < Sinatra::Base
   enable :logging
 
   helpers do
-    def counter
-      @counter ||= Counter.new
-    end
-
-    def fetch_recipes
-      10.times.map do
-        i = counter.incr
+    def fetch_tsukurepos(recipe_id)
+      3.times.map do |i|
         {
           id: i,
-          name: "Recipe ##{i}",
+          recipe_id: recipe_id,
+          text: "Tsukurepo ##{i}",
           author: fetch_user,
         }
       end
     end
 
+    def fetch_recipes
+      5.times.map do |i|
+        {
+          id: i,
+          name: "Recipe ##{i}",
+          author: fetch_user,
+          tsukurepos: fetch_tsukurepos(i),
+        }
+      end
+    end
+
     def fetch_user
-      {
-        id: counter.incr,
-        name: SecureRandom.uuid,
-      }
+      id = SecureRandom.uuid
+
+      User.find(id)
+    end
+
+    def fetch_theme(_id)
+      "light"
     end
   end
 
   get '/api/me' do
     json(
-      id: counter.incr,
       name: "riseshia",
       recipes: fetch_recipes,
     )
