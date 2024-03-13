@@ -14,7 +14,23 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
 ## Usage
 
-TODO: Write usage instructions here
+call `Isucover.start` before your application load, and mount middleware.
+Here is example:
+
+```ruby
+require 'isucover'
+
+Isucover.start(project_dir: File.expand_path(__dir__))
+
+require_relative 'app'
+
+use Isucover::Middleware
+run App
+```
+
+Boot up application, access `/isucover` will return coverage result like this:
+
+![page view](./img/screenshot.png)
 
 ## Development
 
@@ -24,7 +40,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/isucover.
+Bug reports and pull requests are welcome on GitHub at https://github.com/riseshia/isucover.
 
 ## License
 
