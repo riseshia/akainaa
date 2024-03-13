@@ -2,7 +2,7 @@
 
 require 'isucover'
 
-Isucover.start
+Isucover.start(project_dir: File.expand_path(__dir__))
 
 require_relative 'app'
 

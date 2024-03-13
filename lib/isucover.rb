@@ -1,19 +1,27 @@
 # frozen_string_literal: true
 
-require "coverage"
+require 'coverage'
 
-require_relative "isucover/version"
+require_relative 'isucover/version'
 
 module Isucover
   class Error < StandardError; end
 
   class << self
-    def start
+    attr_accessor :project_dir
+
+    def start(project_dir:)
+      @project_dir = project_dir
+      @project_dir += '/' unless @project_dir.end_with?('/')
+
       Coverage.start(lines: true)
     end
 
     def peek_result
-      Coverage.peek_result
+      Coverage
+        .peek_result
+        .select { |k, _v| k.start_with?(project_dir) }
+        .transform_keys { |k| k.sub(project_dir, '') }
     end
   end
 
@@ -28,10 +36,6 @@ module Isucover
       if env['PATH_INFO'] == '/isucover'
         matched = env['QUERY_STRING'].match(/path=([^&]+)/)
         path = matched ? matched[1] : 'app.rb'
-
-        if !path.start_with?('/')
-          path = "#{Dir.pwd}/#{path}"
-        end
 
         result = Isucover.peek_result[path]
         html = render_result(path, result)
@@ -63,29 +67,29 @@ module Isucover
       end
 
       <<~HTML
-      <html>
-      <head>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/ruby.min.js"></script>
-      <style>
-      </style>
-      </head>
-      <body>
-      <table>
-      <tr>
-      <td>
-      <pre>#{meta_infos.join("\n")}</pre>
-      </td>
-      <td>
-      <pre><code class="language-ruby">#{codes.join}</code></pre>
-      </td>
-      </tr>
-      </table>
+        <html>
+        <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/ruby.min.js"></script>
+        <style>
+        </style>
+        </head>
+        <body>
+        <table>
+        <tr>
+        <td>
+        <pre>#{meta_infos.join("\n")}</pre>
+        </td>
+        <td>
+        <pre><code class="language-ruby">#{codes.join}</code></pre>
+        </td>
+        </tr>
+        </table>
 
-      <script>hljs.highlightAll();</script>
-      </body>
-      </html>
+        <script>hljs.highlightAll();</script>
+        </body>
+        </html>
       HTML
     end
   end
