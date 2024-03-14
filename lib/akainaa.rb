@@ -74,12 +74,22 @@ module Akainaa
       HTML
     end
 
-    private def render_filelist(files, current_path:)
+    private def render_filelist(coverage_result, current_path:)
+      files = coverage_result.keys
+      max_count_on_proj = coverage_result
+        .values
+        .map { |cv| cv[:lines].reject(&:nil?).sum }
+        .max + 1
+      max_count_witdh = max_count_on_proj.to_s.size
+
       li_elements = files.sort.map do |file|
+        total_count_on_file = coverage_result[file][:lines].reject(&:nil?).sum
+        count_top = (total_count_on_file * 10 / max_count_on_proj).to_i * 10
+
         class_suffix = file == current_path ? ' current' : ''
         <<~HTML
           <li class="pure-menu-item">
-            <a href="/akainaa?path=#{file}" class="pure-menu-link filepath#{class_suffix}">#{file}</a>
+          <a href="/akainaa?path=#{file}" class="pure-menu-link filepath#{class_suffix} count-p#{count_top}"">(#{total_count_on_file.to_s.rjust(max_count_witdh)}) #{file}</a>
           </li>
         HTML
       end.join
@@ -87,7 +97,7 @@ module Akainaa
       <<~HTML
         <div>
           <div class="pure-menu">
-            <span class="pure-menu-heading">Akainaa</span>
+            <span class="pure-menu-heading">赤いなぁ</span>
             <ul class="pure-menu-list">
               <li class="pure-menu-item">
                 <a href="/akainaa/reset" class="pure-button pure-button-primary">Reset</a>
@@ -102,6 +112,7 @@ module Akainaa
 
     private def render_page(path)
       result = Akainaa.peek_result
+
       path_result = result[path]
 
       if path_result.nil?
@@ -112,19 +123,19 @@ module Akainaa
         return "<" + "p>#{path} not found.<" + "/p>"
       end
 
-      filelist = render_filelist(result.keys, current_path: path)
-
       coverage_on_line = path_result[:lines]
-      max_count = coverage_on_line.max_by(&:to_i).to_i + 1
+      max_count_on_file = coverage_on_line.reject(&:nil?).max + 1
 
       lines = []
       File.read(path).each_line.with_index do |line, index|
         count = coverage_on_line[index].to_i
-        count_top = (count * 10 / max_count).to_i * 10
+        count_top = (count * 10 / max_count_on_file).to_i * 10
         line = render_line(index + 1, line, coverage_on_line[index], count_top)
 
         lines << line
       end
+
+      filelist = render_filelist(result, current_path: path)
 
       <<~HTML
         <!DOCTYPE html>
@@ -138,6 +149,10 @@ module Akainaa
             <style>
               .sidebar {
                 background-color: #eee;
+              }
+
+              .pure-menu-heading {
+                font-weight: bold;
               }
 
               .line {
@@ -161,6 +176,7 @@ module Akainaa
               a.filepath {
                 text-wrap: balance;
                 word-break: break-all;
+                color: #000;
               }
               a.filepath.current {
                 font-weight: bold;
@@ -199,11 +215,38 @@ module Akainaa
               div.count-p20 {
                 background-color: #fedcda;
               }
-              div.count-p10 {
+              div.count-p10, div.count-p0 {
                 background-color: #ffffff;
               }
-              div.count-p00 {
-                background-color: #a3cfbb;
+              .pure-menu-item > a.count-p90 {
+                background-color: #ff392e;
+              }
+              .pure-menu-item > a.count-p80 {
+                background-color: #ff5047;
+              }
+              .pure-menu-item > a.count-p70 {
+                background-color: #ff675f;
+              }
+              .pure-menu-item > a.count-p60 {
+                background-color: #ff7f78;
+              }
+              .pure-menu-item > a.count-p50 {
+                background-color: #ff9690;
+              }
+              .pure-menu-item > a.count-p40 {
+                background-color: #ffada9;
+              }
+              .pure-menu-item > a.count-p30 {
+                background-color: #ffffff;
+              }
+              .pure-menu-item > a.count-p20 {
+                background-color: #ffffff;
+              }
+              .pure-menu-item > a.count-p10 {
+                background-color: #ffffff;
+              }
+              .pure-menu-item > a.count-p0 {
+                background-color: #ffffff;
               }
             </style>
           </head>

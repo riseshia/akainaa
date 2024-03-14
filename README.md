@@ -1,5 +1,7 @@
 # Akainaa (赤いなぁ)
 
+![page view](./img/webui.png)
+
 Akainaa is a gem that employs the Coverage library to record
 the number of executed count of code in a rack application
 and provides a Web UI that shows the recorded status.
@@ -34,9 +36,8 @@ use Akainaa::Middleware
 run App
 ```
 
-Boot up application, access `/akainaa` will return coverage result like this:
-
-![page view](./img/screenshot.png)
+Boot up application, do something, and access `/akainaa`.
+It will show Web UI what and how many executed.
 
 ## Development
 

@@ -3,6 +3,7 @@
 require_relative './theme'
 
 module User
+  30.times { nil }
   module_function
 
   def find(id)

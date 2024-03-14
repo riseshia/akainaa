@@ -5,48 +5,26 @@ require 'sinatra/json'
 require 'securerandom'
 
 require_relative './user'
+require_relative './notification'
+require_relative './util'
 
 class App < Sinatra::Base
   enable :logging
 
-  helpers do
-    def fetch_tsukurepos(recipe_id)
-      3.times.map do |i|
-        {
-          id: i,
-          recipe_id: recipe_id,
-          text: "Tsukurepo ##{i}",
-          author: fetch_user,
-        }
-      end
-    end
-
-    def fetch_recipes
-      5.times.map do |i|
-        {
-          id: i,
-          name: "Recipe ##{i}",
-          author: fetch_user,
-          tsukurepos: fetch_tsukurepos(i),
-        }
-      end
-    end
-
-    def fetch_user
-      id = SecureRandom.uuid
-
-      User.find(id)
-    end
-
-    def fetch_theme(_id)
-      "light"
-    end
-  end
-
   get '/api/me' do
+    1.times { Util.do_something }
+    2.times { Util.do_something }
+    3.times { Util.do_something }
+    4.times { Util.do_something }
+    5.times { Util.do_something }
+    6.times { Util.do_something }
+    7.times { Util.do_something }
+    8.times { Util.do_something }
+    9.times { Util.do_something }
+    10.times { Util.do_something }
+
     json(
       name: "riseshia",
-      recipes: fetch_recipes,
     )
   end
 end
