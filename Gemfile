@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in isucover.gemspec
+# Specify your gem's dependencies in akainaa.gemspec
 gemspec
 
 gem "rake", "~> 13.0"

@@ -1,4 +1,4 @@
-# Isucover
+# Akainaa
 
 Minimum rack middleware for coverage
 
@@ -6,29 +6,29 @@ Minimum rack middleware for coverage
 
 Install the gem and add to the application's Gemfile by executing:
 
-    $ bundle add isucover
+    $ bundle add akainaa
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
-    $ gem install isucover
+    $ gem install akainaa
 
 ## Usage
 
-call `Isucover.start` before your application load, and mount middleware.
+call `Akainaa.start` before your application load, and mount middleware.
 Here is example:
 
 ```ruby
-require 'isucover'
+require 'akainaa'
 
-Isucover.start(project_dir: File.expand_path(__dir__))
+Akainaa.start(project_dir: File.expand_path(__dir__))
 
 require_relative 'app'
 
-use Isucover::Middleware
+use Akainaa::Middleware
 run App
 ```
 
-Boot up application, access `/isucover` will return coverage result like this:
+Boot up application, access `/akainaa` will return coverage result like this:
 
 ![page view](./img/screenshot.png)
 
@@ -40,7 +40,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/riseshia/isucover.
+Bug reports and pull requests are welcome on GitHub at https://github.com/riseshia/akainaa.
 
 ## License
 

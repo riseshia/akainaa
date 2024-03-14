@@ -2,9 +2,9 @@
 
 require 'coverage'
 
-require_relative 'isucover/version'
+require_relative 'akainaa/version'
 
-module Isucover
+module Akainaa
   class Error < StandardError; end
 
   class << self
@@ -37,16 +37,16 @@ module Isucover
     end
 
     def call(env)
-      if env['PATH_INFO'] == '/isucover'
+      if env['PATH_INFO'] == '/akainaa'
         path = extract_path_from_query(env)
         html = render_page(path)
 
         [200, { 'Content-Type' => 'text/html;charset=utf-8' }, [html]]
-      elsif env['PATH_INFO'] == '/isucover/reset'
+      elsif env['PATH_INFO'] == '/akainaa/reset'
         path = extract_path_from_query(env)
-        Isucover.reset
+        Akainaa.reset
 
-        [302, { 'Location' => "/isucover?path=#{path}" }, [html]]
+        [302, { 'Location' => "/akainaa?path=#{path}" }, [html]]
       else
         @app.call(env)
       end
@@ -79,7 +79,7 @@ module Isucover
         class_suffix = file == current_path ? ' current' : ''
         <<~HTML
           <li class="pure-menu-item">
-            <a href="/isucover?path=#{file}" class="pure-menu-link filepath#{class_suffix}">#{file}</a>
+            <a href="/akainaa?path=#{file}" class="pure-menu-link filepath#{class_suffix}">#{file}</a>
           </li>
         HTML
       end.join
@@ -87,10 +87,10 @@ module Isucover
       <<~HTML
         <div>
           <div class="pure-menu">
-            <span class="pure-menu-heading">Isucover</span>
+            <span class="pure-menu-heading">Akainaa</span>
             <ul class="pure-menu-list">
               <li class="pure-menu-item">
-                <a href="/isucover/reset" class="pure-button pure-button-primary">Reset</a>
+                <a href="/akainaa/reset" class="pure-button pure-button-primary">Reset</a>
               </li>
               <li class="pure-menu-heading">Files</li>
               #{li_elements}
@@ -101,7 +101,7 @@ module Isucover
     end
 
     private def render_page(path)
-      result = Isucover.peek_result
+      result = Akainaa.peek_result
       path_result = result[path]
 
       if path_result.nil?

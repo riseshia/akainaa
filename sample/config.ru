@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'isucover'
+require 'akainaa'
 
-Isucover.start(project_dir: File.expand_path(__dir__))
+Akainaa.start(project_dir: File.expand_path(__dir__))
 
 require_relative 'app'
 
-use Isucover::Middleware
+use Akainaa::Middleware
 run App

@@ -1,7 +1,7 @@
 PATH
   remote: ..
   specs:
-    isucover (0.1.0)
+    akainaa (0.1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -39,7 +39,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  isucover!
+  akainaa!
   puma (~> 6.4)
   sinatra (~> 4.0)
   sinatra-contrib (~> 4.0)

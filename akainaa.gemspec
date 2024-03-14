@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require_relative "lib/isucover/version"
+require_relative "lib/akainaa/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "isucover"
-  spec.version = Isucover::VERSION
+  spec.name = "akainaa"
+  spec.version = Akainaa::VERSION
   spec.authors = ["Shia"]
   spec.email = ["rise.shia@gmail.com"]
 
   spec.summary = "Minimum rack middleware for coverage"
   spec.description = spec.summary
-  spec.homepage = "https://github.com/riseshia/isucover"
+  spec.homepage = "https://github.com/riseshia/akainaa"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.0.0"
 
