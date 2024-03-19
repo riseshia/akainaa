@@ -2,9 +2,7 @@
 
 ![page view](./img/webui.png)
 
-Akainaa is a gem that employs the Coverage library to record
-the number of executed count of code in a rack application
-and provides a Web UI that shows the recorded status.
+Akainaa is a gem to visualize code hotspot based on Coverage.
 This gem can be used for the following purposes:
 
 - super rough code profiler: The intensity of the red background for each line is proportional to the number of times it has been executed.
