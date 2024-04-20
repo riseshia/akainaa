@@ -8,6 +8,8 @@ This gem can be used for the following purposes:
 - super rough code profiler: The intensity of the red background for each line is proportional to the number of times it has been executed.
 - A tool helps to understand what happened in a request: Akainaa have the reset button on Web UI, so user can easily record code execution for only one request.
 
+You can see actual result view from [here](https://riseshia.github.io/akainaa/isucon13-baseline.html), which recorded on [isucon13](https://github.com/isucon/isucon13/tree/main/webapp/ruby) code in one benchmark run on [ISUNARABE](https://isunarabe.org/).
+
 ## Installation
 
 Install the gem and add to the application's Gemfile by executing:
