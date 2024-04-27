@@ -54,7 +54,7 @@ module Akainaa
 
     private def extract_path_from_query(env)
       matched = env['QUERY_STRING'].match(/path=([^&]+)/)
-      matched ? matched[1] : 'app.rb'
+      matched ? matched[1] : nil
     end
 
     private def render_line(lineno, code, count, count_top)
@@ -112,6 +112,8 @@ module Akainaa
 
     private def render_page(path)
       result = Akainaa.peek_result
+
+      path = result.keys.first if path.nil?
 
       path_result = result[path]
 
