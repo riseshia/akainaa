@@ -77,7 +77,7 @@ module Akainaa
     private def render_filelist(coverage_result, summary:, current_path:)
       files = coverage_result.keys
       max_count_on_proj = summary.max_count_on_proj
-      max_count_witdh = max_count_on_proj.to_s.size
+      max_count_width = max_count_on_proj.to_s.size
 
       li_elements = files.sort.map do |file|
         total_count_on_file = coverage_result[file][:lines].reject(&:nil?).sum
@@ -86,7 +86,7 @@ module Akainaa
         class_suffix = file == current_path ? ' current' : ''
         <<~HTML
           <li class="pure-menu-item">
-          <a href="/akainaa?path=#{file}" class="pure-menu-link filepath#{class_suffix} count-p#{count_top}"">(#{total_count_on_file.to_s.rjust(max_count_witdh)}) #{file}</a>
+          <a href="/akainaa?path=#{file}" class="pure-menu-link filepath#{class_suffix} count-p#{count_top}"">(#{total_count_on_file.to_s.rjust(max_count_width)}) #{file}</a>
           </li>
         HTML
       end.join
@@ -123,7 +123,7 @@ module Akainaa
       result = Akainaa.peek_result
 
       summary = generate_summary(result)
-      max_count_witdh = summary.max_count_on_proj.to_s.size
+      max_count_width = summary.max_count_on_proj.to_s.size
 
       path = summary.file_path_has_max_count if path.nil?
 
