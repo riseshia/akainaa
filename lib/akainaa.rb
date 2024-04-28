@@ -74,12 +74,9 @@ module Akainaa
       HTML
     end
 
-    private def render_filelist(coverage_result, current_path:)
+    private def render_filelist(coverage_result, summary:, current_path:)
       files = coverage_result.keys
-      max_count_on_proj = coverage_result
-        .values
-        .map { |cv| cv[:lines].reject(&:nil?).sum }
-        .max + 1
+      max_count_on_proj = summary.max_count_on_proj
       max_count_witdh = max_count_on_proj.to_s.size
 
       li_elements = files.sort.map do |file|
@@ -110,10 +107,25 @@ module Akainaa
       HTML
     end
 
+    CoverageSummary = Data.define(:file_path_has_max_count, :max_count_on_proj)
+
+    private def generate_summary(coverage_result)
+      file_path_has_max_count = coverage_result.max_by { |_, cv| cv[:lines].reject(&:nil?).sum }.first
+      max_count_on_proj = coverage_result
+        .values
+        .map { |cv| cv[:lines].reject(&:nil?).sum }
+        .max + 1
+
+      CoverageSummary.new(file_path_has_max_count:, max_count_on_proj:)
+    end
+
     private def render_page(path)
       result = Akainaa.peek_result
 
-      path = result.keys.first if path.nil?
+      summary = generate_summary(result)
+      max_count_witdh = summary.max_count_on_proj.to_s.size
+
+      path = summary.file_path_has_max_count if path.nil?
 
       path_result = result[path]
 
@@ -137,7 +149,7 @@ module Akainaa
         lines << line
       end
 
-      filelist = render_filelist(result, current_path: path)
+      filelist = render_filelist(result, summary:, current_path: path)
 
       <<~HTML
         <!DOCTYPE html>
