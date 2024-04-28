@@ -123,7 +123,6 @@ module Akainaa
       result = Akainaa.peek_result
 
       summary = generate_summary(result)
-      max_count_width = summary.max_count_on_proj.to_s.size
 
       path = summary.file_path_has_max_count if path.nil?
 
