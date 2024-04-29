@@ -1,6 +1,6 @@
 # Akainaa (赤いなぁ)
 
-![page view](./img/webui.png)
+![page view](./img/webui-rev02.png)
 
 Akainaa is a gem to visualize code hotspot based on Coverage.
 This gem can be used for the following purposes:

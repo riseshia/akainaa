@@ -3,6 +3,8 @@
 require 'coverage'
 
 require_relative 'akainaa/version'
+require_relative 'akainaa/call_node_visitor'
+require_relative 'akainaa/util'
 
 module Akainaa
   class Error < StandardError; end
@@ -136,7 +138,7 @@ module Akainaa
         return "<" + "p>#{path} not found.<" + "/p>"
       end
 
-      coverage_on_line = path_result[:lines]
+      coverage_on_line = Akainaa::Util.fullfill_multiline_method_calls(path, path_result[:lines])
       max_count_on_file = coverage_on_line.reject(&:nil?).max + 1
 
       lines = []

@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Coloring all line of the method which located on multiple lines
+
 ## [0.1.1] - 2024-04-28
 
 - Show the most executed file if path query isn't provided
