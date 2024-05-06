@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.1.2] - 2024-05-06
+
 - Coloring all line of the method which located on multiple lines
 
 ## [0.1.1] - 2024-04-28
