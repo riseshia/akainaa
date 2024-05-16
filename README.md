@@ -1,4 +1,4 @@
-# Akainaa (赤いなぁ)
+# Akainaa (赤いなぁ、 It's red...)
 
 ![page view](./img/webui-rev02.png)
 
