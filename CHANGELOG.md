@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.1.3] - 2024-09-02
+
 - Bug fix: nested method call won't handled
 - Bug fix: Empty 302 response body on /akainaa/reset
 - Feature: Add `ignore_glob_patterns` option to `Akainaa.start` method
