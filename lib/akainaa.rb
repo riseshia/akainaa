@@ -53,7 +53,7 @@ module Akainaa
         path = extract_path_from_query(env)
         Akainaa.reset
 
-        [302, { 'Location' => "/akainaa?path=#{path}" }, [html]]
+        [302, { 'Location' => "/akainaa?path=#{path}" }, []]
       else
         @app.call(env)
       end
