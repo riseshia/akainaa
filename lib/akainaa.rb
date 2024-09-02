@@ -10,15 +10,20 @@ module Akainaa
   class Error < StandardError; end
 
   class << self
-    attr_accessor :project_dir, :ignore_files
+    attr_accessor :project_dir, :ignore_files, :hide_not_executed_files
 
-    def start(project_dir:, ignore_glob_patterns: [])
+    def start(
+      project_dir:,
+      ignore_glob_patterns: [],
+      hide_not_executed_files: false,
+    )
       @project_dir = project_dir
       @project_dir += '/' unless @project_dir.end_with?('/')
       ignore_files = ignore_glob_patterns.flat_map do |pattern|
         Dir["#{@project_dir}#{pattern}"].to_a
       end
       @ignore_files = Set.new(ignore_files)
+      @hide_not_executed_files = hide_not_executed_files
 
       Coverage.start(lines: true)
     end
@@ -88,6 +93,8 @@ module Akainaa
 
       li_elements = files.sort.map do |file|
         total_count_on_file = coverage_result[file][:lines].reject(&:nil?).sum
+        next '' if Akainaa.hide_not_executed_files && total_count_on_file == 0
+
         count_top = (total_count_on_file * 10 / max_count_on_proj).to_i * 10
 
         class_suffix = file == current_path ? ' current' : ''
