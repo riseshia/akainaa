@@ -19,6 +19,7 @@ module Akainaa
 
       visitor.multiline_method_calls.each do |method_range|
         call_count = lines[method_range.start_line_as_idx]
+        next if call_count.nil?
 
         method_range.method_row_range_as_idx.each do |idx|
           if fullfilled_lines[idx].nil?
