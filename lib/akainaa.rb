@@ -10,11 +10,15 @@ module Akainaa
   class Error < StandardError; end
 
   class << self
-    attr_accessor :project_dir
+    attr_accessor :project_dir, :ignore_files
 
-    def start(project_dir:)
+    def start(project_dir:, ignore_glob_patterns: [])
       @project_dir = project_dir
       @project_dir += '/' unless @project_dir.end_with?('/')
+      ignore_files = ignore_glob_patterns.flat_map do |pattern|
+        Dir["#{@project_dir}#{pattern}"].to_a
+      end
+      @ignore_files = Set.new(ignore_files)
 
       Coverage.start(lines: true)
     end
@@ -23,6 +27,7 @@ module Akainaa
       Coverage
         .peek_result
         .select { |k, _v| k.start_with?(project_dir) }
+        .reject { |k, _v| ignore_files.member?(k) }
         .transform_keys { |k| k.sub(project_dir, '') }
     end
 

@@ -28,7 +28,13 @@ Here is example:
 ```ruby
 require 'akainaa'
 
-Akainaa.start(project_dir: File.expand_path(__dir__))
+Akainaa.start(
+  project_dir: File.expand_path(__dir__),
+  ignore_glob_patterns: %w[
+    config/application.rb
+    config/initializers/*_initializer.rb
+  ],
+)
 
 require_relative 'app'
 

@@ -1,6 +1,7 @@
 ## [Unreleased]
 
 - Bug fix: nested method call won't handled
+- Feature: Add `ignore_glob_patterns` option to `Akainaa.start` method
 
 ## [0.1.2] - 2024-05-06
 
