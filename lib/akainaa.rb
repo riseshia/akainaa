@@ -15,7 +15,7 @@ module Akainaa
     def start(
       project_dir:,
       ignore_glob_patterns: [],
-      hide_not_executed_files: false,
+      hide_not_executed_files: false
     )
       @project_dir = project_dir
       @project_dir += '/' unless @project_dir.end_with?('/')
