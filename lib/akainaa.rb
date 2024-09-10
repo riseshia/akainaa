@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'coverage'
+require 'fileutils'
 
 require_relative 'akainaa/version'
 require_relative 'akainaa/call_node_visitor'
@@ -15,7 +16,8 @@ module Akainaa
     def start(
       project_dir:,
       ignore_glob_patterns: [],
-      hide_not_executed_files: false
+      hide_not_executed_files: false,
+      online_emit: nil
     )
       @project_dir = project_dir
       @project_dir += '/' unless @project_dir.end_with?('/')
@@ -24,8 +26,15 @@ module Akainaa
       end
       @ignore_files = Set.new(ignore_files)
       @hide_not_executed_files = hide_not_executed_files
+      @monitor = Monitor.new
 
       Coverage.start(lines: true)
+
+      if online_emit.is_a?(Hash)
+        option = default_online_emit.merge(online_emit)
+        FileUtils.mkdir_p(File.dirname(option[:path]))
+        start_multipart_emit(option)
+      end
     end
 
     def peek_result
@@ -37,7 +46,56 @@ module Akainaa
     end
 
     def reset
-      Coverage.result(stop: false, clear: true)
+      @monitor.synchronize do
+        Coverage.result(stop: false, clear: true)
+        @previous_result = {}
+      end
+    end
+
+    private def default_online_emit
+      {
+        mode: :file,
+        interval: 1,
+        path: 'tmp/coverage.json',
+      }
+    end
+
+    private def start_multipart_emit(option)
+      Thread.new do
+        @monitor.synchronize do
+          @previous_result = {}
+        end
+
+        loop do
+          sleep option[:interval]
+          current_result = peek_result
+
+          diff = {}
+          current_result.each do |path, path_coverage|
+            previous_path_coverage = @previous_result[path]
+
+            if previous_path_coverage.nil?
+              diff[path] = path_coverage
+            elsif previous_path_coverage[:lines].size != path_coverage[:lines].size
+              diff[path] = path_coverage
+            else
+              diff[path] = { lines: [] }
+
+              path_coverage[:lines].each_with_index do |count, index|
+                val = count ? count - previous_path_coverage[:lines][index] : nil
+
+                diff[path][:lines] << val
+              end
+            end
+          end
+
+          @monitor.synchronize do
+            @previous_result = current_result
+          end
+          File.write(option[:path], diff.to_json)
+          puts 'Akainaa: Coverage result emitted'
+        end
+      end
     end
   end
 

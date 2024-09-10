@@ -45,6 +45,26 @@ run App
 Boot up application, do something, and access `/akainaa`.
 It will show Web UI what and how many executed.
 
+### Enable online emit mode
+
+Akainaa can emit coverage data which recorded in interval to the file.
+This feature is intended to be used with vscode-akainaa extension.
+
+```ruby
+Akainaa.start(
+  project_dir: File.expand_path(__dir__),
+  ignore_glob_patterns: %w[
+    config/application.rb
+    config/initializers/*_initializer.rb
+  ],
+  online_emit: {
+    mode: :file,
+    interval: 1, # seconds
+    output_path: '/tmp/akainaa.json',
+  },
+)
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
