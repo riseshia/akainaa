@@ -1,6 +1,6 @@
 ## [Unreleased]
 
-## [0.1.4] - 2024-09-10
+## [0.1.5] - 2024-09-10
 
 - Bug fix: nested method call won't handled
 - Bug fix: Empty 302 response body on /akainaa/reset
