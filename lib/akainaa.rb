@@ -93,7 +93,6 @@ module Akainaa
             @previous_result = current_result
           end
           File.write(option[:path], diff.to_json)
-          puts 'Akainaa: Coverage result emitted'
         end
       end
     end
