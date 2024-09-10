@@ -1,11 +1,12 @@
 ## [Unreleased]
 
-## [0.1.3] - 2024-09-02
+## [0.1.4] - 2024-09-10
 
 - Bug fix: nested method call won't handled
 - Bug fix: Empty 302 response body on /akainaa/reset
 - Feature: Add `ignore_glob_patterns` option to `Akainaa.start` method
 - Feature: Add `hide_not_executed_files` option to `Akainaa.start` method
+- Feature: Add `online_emit` option to `Akainaa.start` method
 
 ## [0.1.2] - 2024-05-06
 
