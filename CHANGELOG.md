@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.1.6] - 2024-09-11
+
 - Feature: Add `clear` flag on first emit
 - Feature: Add `trap_at_exit` option to `Akainaa.start` method
 - Feature: Do not emit regularly if interval is 0 or nil
