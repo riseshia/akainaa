@@ -77,6 +77,8 @@ module Akainaa
     end
 
     private def start_multipart_emit(option)
+      return if option[:interval].nil? || option[:interval] <= 0
+
       Thread.new do
         @monitor.synchronize do
           @previous_result = {}
