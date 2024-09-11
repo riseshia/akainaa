@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Feature: Add `clear` flag on first emit
+
 ## [0.1.5] - 2024-09-10
 
 - Bug fix: nested method call won't handled

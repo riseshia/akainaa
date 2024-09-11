@@ -27,6 +27,7 @@ module Akainaa
       @ignore_files = Set.new(ignore_files)
       @hide_not_executed_files = hide_not_executed_files
       @monitor = Monitor.new
+      @first_emitted = false
 
       Coverage.start(lines: true)
 
@@ -89,10 +90,15 @@ module Akainaa
             end
           end
 
+          unless @first_emitted
+            diff['clear'] = true
+          end
+
           @monitor.synchronize do
             @previous_result = current_result
           end
           File.write(option[:path], diff.to_json)
+          @first_emitted = true
         end
       end
     end
