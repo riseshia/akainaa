@@ -1,6 +1,7 @@
 ## [Unreleased]
 
 - Feature: Add `clear` flag on first emit
+- Feature: Add `trap_at_exit` option to `Akainaa.start` method
 
 ## [0.1.5] - 2024-09-10
 

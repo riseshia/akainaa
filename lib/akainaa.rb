@@ -35,6 +35,12 @@ module Akainaa
         option = default_online_emit.merge(online_emit)
         FileUtils.mkdir_p(File.dirname(option[:path]))
         start_multipart_emit(option)
+
+        if option[:trap_at_exit]
+          at_exit do
+            write_result(peek_result, option[:path])
+          end
+        end
       end
     end
 
@@ -53,11 +59,20 @@ module Akainaa
       end
     end
 
+    private def write_result(result, path)
+      unless @first_emitted
+        result['clear'] = true
+      end
+      File.write(path, result.to_json)
+      @first_emitted = true
+    end
+
     private def default_online_emit
       {
         mode: :file,
         interval: 1,
         path: 'tmp/coverage.json',
+        trap_at_exit: true,
       }
     end
 
@@ -90,15 +105,11 @@ module Akainaa
             end
           end
 
-          unless @first_emitted
-            diff['clear'] = true
-          end
-
           @monitor.synchronize do
             @previous_result = current_result
           end
-          File.write(option[:path], diff.to_json)
-          @first_emitted = true
+
+          write_result(diff, option[:path])
         end
       end
     end

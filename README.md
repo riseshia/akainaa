@@ -61,6 +61,7 @@ Akainaa.start(
     mode: :file,
     interval: 1, # seconds
     output_path: '/tmp/akainaa.json',
+    trap_at_exit: true,
   },
 )
 ```
