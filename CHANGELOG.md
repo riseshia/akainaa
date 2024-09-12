@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Bug fix: Require "json" on start if online_emit enabled
+
 ## [0.1.6] - 2024-09-11
 
 - Feature: Add `clear` flag on first emit
