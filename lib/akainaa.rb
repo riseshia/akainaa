@@ -32,6 +32,7 @@ module Akainaa
       Coverage.start(lines: true)
 
       if online_emit.is_a?(Hash)
+        require 'json'
         option = default_online_emit.merge(online_emit)
         FileUtils.mkdir_p(File.dirname(option[:path]))
         start_multipart_emit(option)
