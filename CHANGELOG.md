@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.1.7]
+
 - Bug fix: Require "json" on start if online_emit enabled
 
 ## [0.1.6] - 2024-09-11
